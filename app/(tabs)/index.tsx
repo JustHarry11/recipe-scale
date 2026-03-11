@@ -1,30 +1,48 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { useColorScheme } from "@/hooks/use-color-scheme";
-import { Colors } from "@/constants/theme";
+import { View, Text, StyleSheet, Pressable, FlatList } from "react-native";
+import { useRecipes } from "../src/context/RecipeContext";
 
 export default function RecipesScreen() {
-  const colorScheme = useColorScheme();
-  const theme = Colors[colorScheme ?? "light"];
+  const { recipes } = useRecipes();
 
   return (
-    <ScrollView contentContainerStyle={[styles.container, { backgroundColor: theme.background }]}>
-      <Text style={[styles.title, { color: theme.text }]}>My Recipes</Text>
-      <Text style={{ color: theme.text }}>
-        Here you will see all your saved recipes.
-      </Text>
-      {/* TODO: map over saved recipes here */}
-    </ScrollView>
+    <View style={styles.container}>
+      <Text style={styles.title}>My Recipes</Text>
+
+      <FlatList
+        data={recipes}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <Pressable style={styles.card}>
+            <Text style={styles.recipeTitle}>{item.name}</Text>
+            <Text>{item.servings} servings</Text>
+          </Pressable>
+        )}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flex: 1,
     padding: 20,
   },
+
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: 20,
+  },
+
+  card: {
+    padding: 16,
+    borderRadius: 10,
+    backgroundColor: "#eee",
+    marginBottom: 12,
+  },
+
+  recipeTitle: {
+    fontSize: 18,
+    fontWeight: "600",
   },
 });
