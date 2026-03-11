@@ -3,6 +3,9 @@ import { useState } from "react";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { Colors } from "@/constants/theme";
 
+import { useRecipes } from "../src/context/RecipeContext";
+import { useRouter } from "expo-router";
+
 // Ingredient type
 type Ingredient = {
   name: string;
@@ -13,6 +16,9 @@ type Ingredient = {
 export default function AddRecipeScreen() {
   const colorScheme = useColorScheme();
   const theme = Colors[colorScheme ?? "light"];
+
+  const { addRecipe } = useRecipes();
+  const router = useRouter();
 
   const [recipeName, setRecipeName] = useState<string>("");
   const [servings, setServings] = useState<string>("");
@@ -28,6 +34,19 @@ export default function AddRecipeScreen() {
 
   function addIngredient() {
     setIngredients([...ingredients, { name: "", amount: "", unit: "" }]);
+  }
+
+  function saveRecipe() {
+    const newRecipe = {
+      id: Date.now().toString(),
+      name: recipeName,
+      servings: Number(servings),
+      ingredients,
+    };
+
+    addRecipe(newRecipe);
+
+    router.push("/")
   }
 
   return (
@@ -88,6 +107,13 @@ export default function AddRecipeScreen() {
       {/* Add Ingredient Button */}
       <Pressable style={[styles.addButton, { backgroundColor: theme.tint }]} onPress={addIngredient}>
         <Text style={[styles.addButtonText, { color: theme.background }]}>+ Add Ingredient</Text>
+      </Pressable>
+
+      {/* Add Recipe Button */}
+      <Pressable style={[styles.addButton, { backgroundColor: theme.tint }]} onPress={saveRecipe}>
+        <Text style={[styles.addButtonText, { color: theme.background }]}>
+          Save Recipe
+        </Text>
       </Pressable>
     </ScrollView>
   );
