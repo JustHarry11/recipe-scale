@@ -1,8 +1,10 @@
 import { View, Text, StyleSheet, Pressable, FlatList } from "react-native";
 import { useRecipes } from "../src/context/RecipeContext";
+import { useRouter } from "expo-router";
 
 export default function RecipesScreen() {
   const { recipes } = useRecipes();
+  const router = useRouter();
 
   return (
     <View style={styles.container}>
@@ -12,7 +14,10 @@ export default function RecipesScreen() {
         data={recipes}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <Pressable style={styles.card}>
+          <Pressable
+            style={styles.card}
+            onPress={() => router.push(`/recipe/${item.id}`)}
+          >
             <Text style={styles.recipeTitle}>{item.name}</Text>
             <Text>{item.servings} servings</Text>
           </Pressable>
@@ -45,4 +50,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "600",
   },
+  subtitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    marginTop: 20,
+  },
+
+  row: {
+    marginTop: 8,
+  }
 });
