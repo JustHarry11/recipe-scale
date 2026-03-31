@@ -29,6 +29,20 @@ export default function AddRecipeScreen() {
   }
 
   function saveRecipe() {
+    // 1️⃣ Validation
+    if (!recipeName.trim() || !servings.trim()) {
+      alert("Please fill in all fields");
+      return;
+    }
+
+    // Optional: check that ingredients are filled
+    const emptyIngredient = ingredients.some(
+      (i) => !i.name.trim() || !i.amount.trim()
+    );
+    if (emptyIngredient) {
+      alert("Please fill in all ingredient fields");
+      return;
+    }
     const newRecipe = {
       id: Date.now().toString(),
       name: recipeName,
@@ -36,6 +50,10 @@ export default function AddRecipeScreen() {
       ingredients,
     };
     addRecipe(newRecipe);
+    // 4️⃣ Reset the form
+    setRecipeName("");
+    setServings("");
+    setIngredients([{ name: "", amount: "", unit: "" }]);
     router.push("/");
   }
 
