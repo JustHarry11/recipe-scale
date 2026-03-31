@@ -28,12 +28,22 @@ export default function RecipesScreen() {
               {item.name}
             </Text>
             <Text style={{ color: theme.text }}>{item.servings} servings</Text>
+            <Text style={styles.ingredientsPreview}>
+              {item.ingredients.slice(0, 2).map(i => i.name).join(", ")}
+              {item.ingredients.length > 2 && "..."}
+            </Text>
           </Pressable>
         )}
         ListEmptyComponent={
-          <Text style={{ color: theme.text, marginTop: 20 }}>
-            No recipes yet. Add one!
-          </Text>
+          <View style={styles.emptyContainer}>
+            <Text style={[styles.emptyTitle, { color: theme.text }]}>
+              No recipes yet 🍳
+            </Text>
+
+            <Text style={[styles.emptySubtitle, { color: theme.text + "99" }]}>
+              Tap “Add Recipe” to get started
+            </Text>
+          </View>
         }
       />
     </View>
@@ -56,11 +66,38 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 10,
     marginBottom: 12,
+    backgroundColor: "#f5f5f5",
   },
 
   recipeTitle: {
     fontSize: 18,
     fontWeight: "600",
     marginBottom: 4,
+  },
+
+  servings: {
+    marginTop: 4,
+    opacity: 0.7,
+  },
+  
+  ingredientsPreview: {
+    marginTop: 6,
+    fontSize: 12,
+    opacity: 0.6,
+  },
+
+  emptyContainer: {
+    marginTop: 60,
+    alignItems: "center",
+  },
+
+  emptyTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+  },
+
+  emptySubtitle: {
+    marginTop: 8,
+    fontSize: 14,
   },
 });
