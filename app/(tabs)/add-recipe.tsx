@@ -1,35 +1,27 @@
+// app/add-recipe.tsx
 import { View, Text, TextInput, Pressable, StyleSheet, ScrollView } from "react-native";
 import { useState } from "react";
+import { useRecipes } from "../src/context/RecipeContext";
+import { useRouter } from "expo-router";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { Colors } from "@/constants/theme";
 
-import { useRecipes } from "../src/context/RecipeContext";
-import { useRouter } from "expo-router";
-
-// Ingredient type
-type Ingredient = {
-  name: string;
-  amount: string;
-  unit: string;
-};
+type Ingredient = { name: string; amount: string; unit: string };
 
 export default function AddRecipeScreen() {
+  const { addRecipe } = useRecipes();
+  const router = useRouter();
   const colorScheme = useColorScheme();
   const theme = Colors[colorScheme ?? "light"];
 
-  const { addRecipe } = useRecipes();
-  const router = useRouter();
-
-  const [recipeName, setRecipeName] = useState<string>("");
-  const [servings, setServings] = useState<string>("");
-  const [ingredients, setIngredients] = useState<Ingredient[]>([
-    { name: "", amount: "", unit: "" },
-  ]);
+  const [recipeName, setRecipeName] = useState("");
+  const [servings, setServings] = useState("");
+  const [ingredients, setIngredients] = useState<Ingredient[]>([{ name: "", amount: "", unit: "" }]);
 
   function updateIngredient(index: number, field: keyof Ingredient, value: string) {
-    const updatedIngredients = [...ingredients];
-    updatedIngredients[index][field] = value;
-    setIngredients(updatedIngredients);
+    const updated = [...ingredients];
+    updated[index][field] = value;
+    setIngredients(updated);
   }
 
   function addIngredient() {
@@ -43,19 +35,14 @@ export default function AddRecipeScreen() {
       servings: Number(servings),
       ingredients,
     };
-
     addRecipe(newRecipe);
-
-    router.push("/")
+    router.push("/");
   }
 
   return (
-    <ScrollView
-      contentContainerStyle={[styles.container, { backgroundColor: theme.background }]}
-    >
+    <ScrollView contentContainerStyle={[styles.container, { backgroundColor: theme.background }]}>
       <Text style={[styles.title, { color: theme.text }]}>Add Recipe</Text>
 
-      {/* Recipe Name */}
       <TextInput
         placeholder="Recipe Name"
         placeholderTextColor={theme.text + "99"}
@@ -64,7 +51,6 @@ export default function AddRecipeScreen() {
         style={[styles.input, { color: theme.text, borderColor: theme.text + "66" }]}
       />
 
-      {/* Servings */}
       <TextInput
         placeholder="Servings"
         placeholderTextColor={theme.text + "99"}
@@ -75,89 +61,51 @@ export default function AddRecipeScreen() {
       />
 
       <Text style={[styles.subtitle, { color: theme.text }]}>Ingredients</Text>
-
-      {/* Ingredient List */}
-      {ingredients.map((ingredient, index) => (
-        <View key={index} style={styles.ingredientRow}>
+      {ingredients.map((ing, idx) => (
+        <View key={idx} style={styles.ingredientRow}>
           <TextInput
             placeholder="Name"
             placeholderTextColor={theme.text + "99"}
-            value={ingredient.name}
-            onChangeText={(text) => updateIngredient(index, "name", text)}
+            value={ing.name}
+            onChangeText={(v) => updateIngredient(idx, "name", v)}
             style={[styles.ingredientInput, { color: theme.text, borderColor: theme.text + "66" }]}
           />
           <TextInput
             placeholder="Amount"
             placeholderTextColor={theme.text + "99"}
-            value={ingredient.amount}
+            value={ing.amount}
             keyboardType="numeric"
-            onChangeText={(text) => updateIngredient(index, "amount", text)}
+            onChangeText={(v) => updateIngredient(idx, "amount", v)}
             style={[styles.ingredientInput, { color: theme.text, borderColor: theme.text + "66" }]}
           />
           <TextInput
             placeholder="Unit"
             placeholderTextColor={theme.text + "99"}
-            value={ingredient.unit}
-            onChangeText={(text) => updateIngredient(index, "unit", text)}
+            value={ing.unit}
+            onChangeText={(v) => updateIngredient(idx, "unit", v)}
             style={[styles.ingredientInput, { color: theme.text, borderColor: theme.text + "66" }]}
           />
         </View>
       ))}
 
-      {/* Add Ingredient Button */}
       <Pressable style={[styles.addButton, { backgroundColor: theme.tint }]} onPress={addIngredient}>
         <Text style={[styles.addButtonText, { color: theme.background }]}>+ Add Ingredient</Text>
       </Pressable>
 
-      {/* Add Recipe Button */}
       <Pressable style={[styles.addButton, { backgroundColor: theme.tint }]} onPress={saveRecipe}>
-        <Text style={[styles.addButtonText, { color: theme.background }]}>
-          Save Recipe
-        </Text>
+        <Text style={[styles.addButtonText, { color: theme.background }]}>Save Recipe</Text>
       </Pressable>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  input: {
-    borderWidth: 1,
-    padding: 12,
-    marginBottom: 12,
-    borderRadius: 8,
-  },
-  subtitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    marginTop: 20,
-    marginBottom: 10,
-  },
-  ingredientRow: {
-    flexDirection: "row",
-    gap: 8,
-    marginBottom: 10,
-  },
-  ingredientInput: {
-    flex: 1,
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 8,
-  },
-  addButton: {
-    padding: 12,
-    borderRadius: 8,
-    marginTop: 10,
-  },
-  addButtonText: {
-    fontWeight: "bold",
-    textAlign: "center",
-  },
+  container: { padding: 20 },
+  title: { fontSize: 24, fontWeight: "bold", marginBottom: 20 },
+  input: { borderWidth: 1, padding: 12, marginBottom: 12, borderRadius: 8 },
+  subtitle: { fontSize: 18, fontWeight: "600", marginTop: 20, marginBottom: 10 },
+  ingredientRow: { flexDirection: "row", gap: 8, marginBottom: 10 },
+  ingredientInput: { flex: 1, borderWidth: 1, padding: 10, borderRadius: 8 },
+  addButton: { padding: 12, borderRadius: 8, marginTop: 10 },
+  addButtonText: { fontWeight: "bold", textAlign: "center" },
 });
