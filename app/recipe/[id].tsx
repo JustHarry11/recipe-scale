@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TextInput, Pressable, ScrollView } from "react-native";
 import { useState, useEffect } from "react";
 import { useLocalSearchParams } from "expo-router";
-import { useRecipes } from "../../src/context/RecipeContext";
+import { useRecipes } from "../src/context/RecipeContext";
 
 import { useColorScheme } from "@/hooks/use-color-scheme.web";
 import { Colors } from "@/constants/theme";
