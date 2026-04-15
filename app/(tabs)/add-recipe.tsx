@@ -3,7 +3,6 @@ import { View, Text, TextInput, Pressable, StyleSheet, ScrollView } from "react-
 import { useState } from "react";
 import { useRecipes } from "../src/context/RecipeContext";
 import { useRouter } from "expo-router";
-import { useColorScheme } from "@/hooks/use-color-scheme";
 import { Colors } from "@/constants/theme";
 
 type Ingredient = { name: string; amount: string; unit: string };
@@ -11,8 +10,8 @@ type Ingredient = { name: string; amount: string; unit: string };
 export default function AddRecipeScreen() {
   const { addRecipe } = useRecipes();
   const router = useRouter();
-  const colorScheme = useColorScheme();
-  const theme = Colors[colorScheme ?? "light"];
+
+  const theme = Colors.light;
 
   const [recipeName, setRecipeName] = useState("");
   const [servings, setServings] = useState("");

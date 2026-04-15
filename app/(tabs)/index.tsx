@@ -2,14 +2,12 @@
 import { View, Text, StyleSheet, Pressable, FlatList } from "react-native";
 import { useRouter } from "expo-router";
 import { useRecipes } from "../src/context/RecipeContext";
-import { useColorScheme } from "@/hooks/use-color-scheme";
 import { Colors } from "@/constants/theme";
 
 export default function RecipesScreen() {
   const router = useRouter();
   const { recipes, deleteRecipe } = useRecipes();
-  const colorScheme = useColorScheme();
-  const theme = Colors[colorScheme ?? "light"];
+  const theme = Colors.light;
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>

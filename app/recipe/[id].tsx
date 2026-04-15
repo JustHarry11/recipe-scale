@@ -3,15 +3,13 @@ import { useState, useEffect } from "react";
 import { useLocalSearchParams } from "expo-router";
 import { useRecipes } from "../src/context/RecipeContext";
 
-import { useColorScheme } from "@/hooks/use-color-scheme.web";
 import { Colors } from "@/constants/theme";
 
 export default function RecipeScreen() {
   const { id } = useLocalSearchParams();
   const { recipes } = useRecipes();
 
-  const colorScheme = useColorScheme();
-  const theme = Colors[colorScheme ?? "light"];
+  const theme = Colors.light;
 
   const recipe = recipes.find((r) => r.id === String(id));
 
