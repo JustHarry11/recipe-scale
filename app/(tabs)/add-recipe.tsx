@@ -119,9 +119,9 @@ export default function AddRecipeScreen() {
 
 const styles = StyleSheet.create({
   container: { padding: 20 },
-  title: { fontSize: 24, fontWeight: "bold", marginBottom: 20 },
+  title: { fontSize: 24, fontWeight: "bold", marginBottom: 20, textAlign: "center" },
   input: { borderWidth: 1, padding: 12, marginBottom: 12, borderRadius: 8 },
-  subtitle: { fontSize: 18, fontWeight: "600", marginTop: 20, marginBottom: 10 },
+  subtitle: { fontSize: 18, fontWeight: "600", marginTop: 20, marginBottom: 10, textAlign: "center" },
   ingredientRow: { flexDirection: "row", gap: 8, marginBottom: 10 },
   ingredientInput: { flex: 1, borderWidth: 1, padding: 10, borderRadius: 8 },
   addButton: { padding: 12, borderRadius: 8, marginTop: 10 },
