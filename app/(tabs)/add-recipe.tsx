@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRecipes } from "../src/context/RecipeContext";
 import { useRouter } from "expo-router";
 import { Colors } from "@/constants/theme";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type Ingredient = { name: string; amount: string; unit: string };
 
@@ -57,62 +58,65 @@ export default function AddRecipeScreen() {
   }
 
   return (
-    <ScrollView contentContainerStyle={[styles.container, { backgroundColor: theme.background }]}>
-      <Text style={[styles.title, { color: theme.text }]}>Add Recipe</Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
+      <ScrollView contentContainerStyle={[styles.container,{ flexGrow: 1 }]}>
+        <Text style={[styles.title, { color: theme.text }]}>Add Recipe</Text>
 
-      <TextInput
-        placeholder="Recipe Name"
-        placeholderTextColor={theme.text + "99"}
-        value={recipeName}
-        onChangeText={setRecipeName}
-        style={[styles.input, { color: theme.text, borderColor: theme.text + "66" }]}
-      />
+        <TextInput
+          placeholder="Recipe Name"
+          placeholderTextColor={theme.text + "99"}
+          value={recipeName}
+          onChangeText={setRecipeName}
+          style={[styles.input, { color: theme.text, borderColor: theme.text + "66" }]}
+        />
 
-      <TextInput
-        placeholder="Servings"
-        placeholderTextColor={theme.text + "99"}
-        value={servings}
-        onChangeText={setServings}
-        keyboardType="numeric"
-        style={[styles.input, { color: theme.text, borderColor: theme.text + "66" }]}
-      />
+        <TextInput
+          placeholder="Servings"
+          placeholderTextColor={theme.text + "99"}
+          value={servings}
+          onChangeText={setServings}
+          keyboardType="numeric"
+          style={[styles.input, { color: theme.text, borderColor: theme.text + "66" }]}
+        />
 
-      <Text style={[styles.subtitle, { color: theme.text }]}>Ingredients</Text>
-      {ingredients.map((ing, idx) => (
-        <View key={idx} style={styles.ingredientRow}>
-          <TextInput
-            placeholder="Name"
-            placeholderTextColor={theme.text + "99"}
-            value={ing.name}
-            onChangeText={(v) => updateIngredient(idx, "name", v)}
-            style={[styles.ingredientInput, { color: theme.text, borderColor: theme.text + "66" }]}
-          />
-          <TextInput
-            placeholder="Amount"
-            placeholderTextColor={theme.text + "99"}
-            value={ing.amount}
-            keyboardType="numeric"
-            onChangeText={(v) => updateIngredient(idx, "amount", v)}
-            style={[styles.ingredientInput, { color: theme.text, borderColor: theme.text + "66" }]}
-          />
-          <TextInput
-            placeholder="Unit"
-            placeholderTextColor={theme.text + "99"}
-            value={ing.unit}
-            onChangeText={(v) => updateIngredient(idx, "unit", v)}
-            style={[styles.ingredientInput, { color: theme.text, borderColor: theme.text + "66" }]}
-          />
-        </View>
-      ))}
+        <Text style={[styles.subtitle, { color: theme.text }]}>Ingredients</Text>
+        {ingredients.map((ing, idx) => (
+          <View key={idx} style={styles.ingredientRow}>
+            <TextInput
+              placeholder="Name"
+              placeholderTextColor={theme.text + "99"}
+              value={ing.name}
+              onChangeText={(v) => updateIngredient(idx, "name", v)}
+              style={[styles.ingredientInput, { color: theme.text, borderColor: theme.text + "66" }]}
+            />
+            <TextInput
+              placeholder="Amount"
+              placeholderTextColor={theme.text + "99"}
+              value={ing.amount}
+              keyboardType="numeric"
+              onChangeText={(v) => updateIngredient(idx, "amount", v)}
+              style={[styles.ingredientInput, { color: theme.text, borderColor: theme.text + "66" }]}
+            />
+            <TextInput
+              placeholder="Unit"
+              placeholderTextColor={theme.text + "99"}
+              value={ing.unit}
+              onChangeText={(v) => updateIngredient(idx, "unit", v)}
+              style={[styles.ingredientInput, { color: theme.text, borderColor: theme.text + "66" }]}
+            />
+          </View>
+        ))}
 
-      <Pressable style={[styles.addButton, { backgroundColor: theme.tint }]} onPress={addIngredient}>
-        <Text style={[styles.addButtonText, { color: theme.background }]}>+ Add Ingredient</Text>
-      </Pressable>
+        <Pressable style={[styles.addButton, { backgroundColor: theme.tint }]} onPress={addIngredient}>
+          <Text style={[styles.addButtonText, { color: theme.background }]}>+ Add Ingredient</Text>
+        </Pressable>
 
-      <Pressable style={[styles.addButton, { backgroundColor: theme.tint }]} onPress={saveRecipe}>
-        <Text style={[styles.addButtonText, { color: theme.background }]}>Save Recipe</Text>
-      </Pressable>
-    </ScrollView>
+        <Pressable style={[styles.addButton, { backgroundColor: theme.tint }]} onPress={saveRecipe}>
+          <Text style={[styles.addButtonText, { color: theme.background }]}>Save Recipe</Text>
+        </Pressable>
+      </ScrollView>
+    </SafeAreaView>
+
   );
 }
 

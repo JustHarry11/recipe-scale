@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Pressable, FlatList } from "react-native";
 import { useRouter } from "expo-router";
 import { useRecipes } from "../src/context/RecipeContext";
 import { Colors } from "@/constants/theme";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function RecipesScreen() {
   const router = useRouter();
@@ -10,7 +11,7 @@ export default function RecipesScreen() {
   const theme = Colors.light;
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
       <Text style={[styles.title, { color: theme.text }]}>My Recipes</Text>
 
       <FlatList
@@ -43,7 +44,7 @@ export default function RecipesScreen() {
           </View>
         }
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
