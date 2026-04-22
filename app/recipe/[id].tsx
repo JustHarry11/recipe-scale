@@ -8,10 +8,11 @@ import { Colors } from "@/constants/theme";
 export default function RecipeScreen() {
   const { id } = useLocalSearchParams();
   const { recipes } = useRecipes();
+  const isLoaded = recipes.length > 0;
 
   const theme = Colors.light;
 
-  const recipe = recipes.find((r) => r.id === String(id));
+  const recipe = recipes.find((r) => String(r.id) === String(id));
 
   // ✅ Scaling state with safe default
   const [servings, setServings] = useState(1);
@@ -22,6 +23,16 @@ export default function RecipeScreen() {
     }
   }, [recipe]);
 
+  if (!isLoaded) {
+    return (
+      <View style={[styles.container, { backgroundColor: theme.background }]}>
+        <Text style={[styles.title, { color: theme.text }]}>
+          Loading recipe...
+        </Text>
+      </View>
+    );
+  }
+
   if (!recipe) {
     return (
       <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -31,8 +42,10 @@ export default function RecipeScreen() {
   }
 
   // Scale ingredient amounts
-  const scaleAmount = (amount: number) =>
-    Math.round((amount * servings) / recipe.servings * 100) / 100;
+  const scaleAmount = (amount: number) => {
+    if (!recipe) return 0;
+    return Math.round((amount * servings) / recipe.servings * 100) / 100;
+  };
 
   return (
     <ScrollView style={[styles.container, { backgroundColor: theme.background }]}>
