@@ -51,7 +51,7 @@ export default function RecipesScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
   title: { fontSize: 24, fontWeight: "bold", marginBottom: 20, textAlign: "center" },
-  card: { padding: 16, borderRadius: 12, marginBottom: 12 },
+  card: { padding: 16, borderRadius: 12, marginBottom: 12, backgroundColor: "#fff", shadowColor: "#000", shadowOpacity: 0.1, shadowRadius: 6, elevation: 3, },
   recipeTitle: { fontSize: 18, fontWeight: "600", marginBottom: 4 },
   ingredientsPreview: { marginTop: 6, fontSize: 12, opacity: 0.6 },
   deleteButton: { marginTop: 10, alignSelf: "flex-end" },
