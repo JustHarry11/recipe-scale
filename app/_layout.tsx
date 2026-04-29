@@ -12,8 +12,15 @@ export default function RootLayout() {
         <Stack.Screen
           name="recipe/[id]"
           options={{
-            title: "Recipe",
-            headerBackTitle: "Home",
+            title: "",
+
+            headerStyle: {
+              backgroundColor: '#ea870d',
+            },
+
+            headerShadowVisible: false,
+
+            headerTintColor: "#fff",
           }}
         />
       </Stack>

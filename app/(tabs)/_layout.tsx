@@ -1,8 +1,6 @@
 // app/_layout.tsx
 import { Tabs } from "expo-router";
 import React from "react";
-import { Colors } from "@/constants/theme";
-import { HapticTab } from "@/components/haptic-tab";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { RecipeProvider } from "../src/context/RecipeContext";
 
@@ -12,9 +10,26 @@ export default function TabLayout() {
     <RecipeProvider>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: Colors.light.tint,
           headerShown: false,
-          tabBarButton: HapticTab,
+
+          // 👇 Active icon/text
+          tabBarActiveTintColor: "rgba(255,255,255,0.6)",
+          
+
+          // 👇 Inactive icon/text
+          tabBarInactiveTintColor: "#fff",
+
+          // 👇 Background
+          tabBarStyle: {
+            backgroundColor: '#ea870d', 
+            borderTopWidth: 0,
+            height: 70,
+            paddingBottom: 10,
+          },
+
+          tabBarLabelStyle: {
+            fontSize: 12,
+          },
         }}
       >
         <Tabs.Screen

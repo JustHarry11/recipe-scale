@@ -48,7 +48,7 @@ export default function RecipeScreen() {
   };
 
   return (
-    <ScrollView style={[styles.container, { backgroundColor: theme.background }]}>
+    <ScrollView contentContainerStyle={[ styles.container, { backgroundColor: theme.background, alignItems: "center" },]} >
       <Text style={[styles.title, { color: theme.text }]}>{recipe.name}</Text>
 
       {/* Servings input with increment/decrement */}
