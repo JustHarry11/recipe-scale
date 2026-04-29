@@ -1,26 +1,22 @@
-import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import { RecipeProvider } from './src/context/RecipeContext';
-import 'react-native-reanimated';
-
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+import { Stack } from "expo-router";
+import { RecipeProvider } from "./src/context/RecipeContext";
 
 export default function RootLayout() {
-
   return (
     <RecipeProvider>
-      <ThemeProvider value={DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-        </Stack>
-        <StatusBar style="auto" />
-      </ThemeProvider>
-    </RecipeProvider>
+      <Stack>
+        {/* Tabs live inside the stack */}
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
+        {/* Recipe detail screen */}
+        <Stack.Screen
+          name="recipe/[id]"
+          options={{
+            title: "Recipe",
+            headerBackTitle: "Home",
+          }}
+        />
+      </Stack>
+    </RecipeProvider>
   );
 }

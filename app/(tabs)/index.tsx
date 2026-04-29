@@ -31,7 +31,7 @@ export default function RecipesScreen() {
             </Pressable>
 
             <Pressable style={styles.deleteButton} onPress={() => deleteRecipe(item.id)}>
-              <Text style={styles.deleteText}>Delete</Text>
+              <Text style={styles.deleteText}>❌</Text>
             </Pressable>
           </View>
         )}
