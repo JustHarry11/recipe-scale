@@ -1,9 +1,10 @@
 import { View, Text, StyleSheet, TextInput, Pressable, ScrollView } from "react-native";
 import { useState, useEffect } from "react";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter, Stack } from "expo-router";
 import { useRecipes } from "../src/context/RecipeContext";
 
 import { Colors } from "@/constants/theme";
+
 
 export default function RecipeScreen() {
   const { id } = useLocalSearchParams();
@@ -13,6 +14,8 @@ export default function RecipeScreen() {
   const theme = Colors.light;
 
   const recipe = recipes.find((r) => String(r.id) === String(id));
+
+  const router = useRouter();
 
   // ✅ Scaling state with safe default
   const [servings, setServings] = useState(1);
@@ -48,10 +51,20 @@ export default function RecipeScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={[ styles.container, { backgroundColor: theme.background, alignItems: "center" },]} >
+    
+    <ScrollView contentContainerStyle={[styles.container, { backgroundColor: theme.background }]} >
+      <Stack.Screen options={{ headerShown: false }} />
+      <View style={{ flexDirection: 'row', padding: 16}}>
+        <Pressable onPress={() => router.back()}>
+          <Text style={{ fontSize: 30, color: theme.text }}>←</Text>
+        </Pressable>
+      </View>
+
+
+
+      
       <Text style={[styles.title, { color: theme.text }]}>{recipe.name}</Text>
 
-      {/* Servings input with increment/decrement */}
       <Text style={[styles.subtitle, { color: theme.text }]}>Servings</Text>
 
       <View style={styles.servingsRow}>
