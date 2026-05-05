@@ -4,7 +4,7 @@ import { useLocalSearchParams, useRouter, Stack } from "expo-router";
 import { useRecipes } from "../src/context/RecipeContext";
 import { Ingredient } from "../src/types/recipe";
 import { Colors } from "@/constants/theme";
-
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function RecipeScreen() {
   const { id, recipe: recipeParam } = useLocalSearchParams();
@@ -17,8 +17,8 @@ export default function RecipeScreen() {
     : null;
 
   const recipe =
-  parsedRecipe ||
-  recipes.find((r) => String(r.id) === String(id));
+    parsedRecipe ||
+    recipes.find((r) => String(r.id) === String(id));
 
   const router = useRouter();
 
@@ -48,95 +48,135 @@ export default function RecipeScreen() {
   };
 
   return (
+    <>
+      <SafeAreaView style={{ flex: 1 , backgroundColor: theme.background}}>
+        <Stack.Screen options={{ headerShown: false }} />
 
-    <ScrollView contentContainerStyle={[styles.container, { backgroundColor: theme.background }]} >
-      <Stack.Screen options={{ headerShown: false }} />
-      <View style={{ flexDirection: 'row', padding: 16 }}>
-        <Pressable onPress={() => router.back()}>
-          <Text style={{ fontSize: 30, color: theme.text }}>←</Text>
-        </Pressable>
-      </View>
+        <View style={{ flex: 1 }}>
 
-
-
-
-      <Text style={[styles.title, { color: theme.text }]}>{recipe.name}</Text>
-
-      <Text style={[styles.subtitle, { color: theme.text }]}>Servings</Text>
-
-      <View style={styles.servingsRow}>
-        <Pressable
-          style={[styles.servingsButton, { backgroundColor: theme.tint }]}
-          onPress={() => setServings(Math.max(1, servings - 1))}
-        >
-          <Text style={[styles.servingsButtonText, { color: theme.background }]}>−</Text>
-        </Pressable>
-
-        <TextInput
-          value={String(servings)}
-          keyboardType="numeric"
-          onChangeText={(value) => {
-            const parsed = Number(value);
-            if (!isNaN(parsed) && parsed > 0) setServings(parsed);
-          }}
-          style={[
-            styles.servingsInput,
-            {
-              color: theme.text,
-              borderColor: theme.text + "66",
-            },
-          ]}
-          placeholderTextColor={theme.text + "88"}
-        />
-
-        <Pressable
-          style={[styles.servingsButton, { backgroundColor: theme.tint }]}
-          onPress={() => setServings(servings + 1)}
-        >
-          <Text style={[styles.servingsButtonText, { color: theme.background }]}>+</Text>
-        </Pressable>
-      </View>
-
-      {/* Ingredient list */}
-      <Text style={[styles.subtitle, { color: theme.text }]}>Ingredients</Text>
-
-      {recipe.ingredients.map((ingredient: Ingredient, index: number) => {
-        if (!ingredient.name) return null;
-
-        const amount = Number(ingredient.amount) || 0;
-        const scaledAmount = scaleAmount(amount);
-
-        return (
-          <View key={index} style={styles.row}>
-            <Text style={[styles.ingredientText, { color: theme.text }]}>
-              {ingredient.name} — {scaledAmount} {ingredient.unit}
-            </Text>
-
-            <Text
-              style={[
-                styles.originalAmountText,
-                { color: theme.text + "88" },
-              ]}
-            >
-              ({amount} {ingredient.unit} for {recipe.servings} servings)
-            </Text>
+          {/* HEADER */}
+          <View style={styles.header}>
+            <Pressable onPress={() => router.back()}>
+              <Text style={{ fontSize: 30, color: theme.text }}>←</Text>
+            </Pressable>
           </View>
-        );
-      })}
-    </ScrollView>
+
+          {/* SCROLL CONTENT */}
+          <ScrollView
+            contentContainerStyle={styles.scrollContent}
+            keyboardShouldPersistTaps="handled"
+          >
+            <View style={styles.contentWrapper}>
+
+              <Text style={[styles.title, { color: theme.text }]}>
+                {recipe.name}
+              </Text>
+
+              <Text style={[styles.subtitle, { color: theme.text }]}>
+                Servings
+              </Text>
+
+              <View style={styles.servingsRow}>
+                <Pressable
+                  style={[styles.servingsButton, { backgroundColor: theme.tint }]}
+                  onPress={() => setServings(Math.max(1, servings - 1))}
+                >
+                  <Text style={[styles.servingsButtonText, { color: theme.background }]}>−</Text>
+                </Pressable>
+
+                <TextInput
+                  value={String(servings)}
+                  keyboardType="numeric"
+                  onChangeText={(value) => {
+                    const parsed = Number(value);
+                    if (!isNaN(parsed) && parsed > 0) setServings(parsed);
+                  }}
+                  style={[
+                    styles.servingsInput,
+                    {
+                      color: theme.text,
+                      borderColor: theme.text + "66",
+                    },
+                  ]}
+                />
+
+                <Pressable
+                  style={[styles.servingsButton, { backgroundColor: theme.tint }]}
+                  onPress={() => setServings(servings + 1)}
+                >
+                  <Text style={[styles.servingsButtonText, { color: theme.background }]}>+</Text>
+                </Pressable>
+              </View>
+
+              <Text style={[styles.subtitle, { color: theme.text }]}>
+                Ingredients
+              </Text>
+
+              {recipe.ingredients.map((ingredient: Ingredient, index: number) => {
+                if (!ingredient.name) return null;
+
+                const amount = Number(ingredient.amount) || 0;
+                const scaledAmount = scaleAmount(amount);
+
+                return (
+                  <View key={index} style={styles.row}>
+                    <Text style={[styles.ingredientText, { color: theme.text }]}>
+                      {ingredient.name} — {scaledAmount} {ingredient.unit}
+                    </Text>
+
+                    <Text style={[styles.originalAmountText, { color: theme.text + "88" }]}>
+                      ({amount} {ingredient.unit} for {recipe.servings} servings)
+                    </Text>
+                  </View>
+                );
+              })}
+
+            </View>
+          </ScrollView>
+        </View>
+      </SafeAreaView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
 
-  title: { fontSize: 24, fontWeight: "bold", marginBottom: 20 },
+  header: {
+    paddingHorizontal: 16,
+    paddingBottom: 10,
+  },
 
-  subtitle: { fontSize: 18, fontWeight: "600", marginTop: 20, marginBottom: 10 },
+  scrollContent: { paddingBottom: 40, },
+
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: "center",
+  },
+
+  contentWrapper: {
+    width: "100%",
+    maxWidth: 500,        // 🔥 keeps it centered nicely
+    alignSelf: "center",  // 🔥 centers horizontally
+    paddingHorizontal: 20,
+  },
+
+
+
+  subtitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    marginTop: 20,
+    marginBottom: 10,
+    textAlign: "center",
+  },
 
   servingsRow: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center", // 🔥 THIS fixes centering
     gap: 10,
     marginBottom: 10,
   },
@@ -160,9 +200,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  row: { marginTop: 12 },
+  row: {
+    marginTop: 12,
+    alignItems: "center",
+  },
 
   ingredientText: { fontSize: 16 },
 
   originalAmountText: { fontSize: 12 },
+
+
 });
