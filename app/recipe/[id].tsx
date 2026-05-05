@@ -59,7 +59,7 @@ export default function RecipeScreen() {
 
           {/* HEADER */}
           <View style={styles.header}>
-            <Pressable onPress={() => router.back()}>
+            <Pressable onPress={() => router.push('/(tabs)')}>
               <Text style={{ fontSize: 30, color: theme.text }}>←</Text>
             </Pressable>
           </View>
