@@ -2,39 +2,36 @@ import { View, Text, StyleSheet, TextInput, Pressable, ScrollView } from "react-
 import { useState, useEffect } from "react";
 import { useLocalSearchParams, useRouter, Stack } from "expo-router";
 import { useRecipes } from "../src/context/RecipeContext";
-
+import { Ingredient } from "../src/types/recipe";
 import { Colors } from "@/constants/theme";
 
 
 export default function RecipeScreen() {
-  const { id } = useLocalSearchParams();
+  const { id, recipe: recipeParam } = useLocalSearchParams();
   const { recipes } = useRecipes();
-  const isLoaded = recipes.length > 0;
 
   const theme = Colors.light;
 
-  const recipe = recipes.find((r) => String(r.id) === String(id));
+  const parsedRecipe = recipeParam
+    ? JSON.parse(recipeParam as string)
+    : null;
+
+  const recipe =
+  parsedRecipe ||
+  recipes.find((r) => String(r.id) === String(id));
 
   const router = useRouter();
 
   // ✅ Scaling state with safe default
   const [servings, setServings] = useState(1);
 
+
+
   useEffect(() => {
     if (recipe) {
       setServings(recipe.servings);
     }
   }, [recipe]);
-
-  if (!isLoaded) {
-    return (
-      <View style={[styles.container, { backgroundColor: theme.background }]}>
-        <Text style={[styles.title, { color: theme.text }]}>
-          Loading recipe...
-        </Text>
-      </View>
-    );
-  }
 
   if (!recipe) {
     return (
@@ -51,10 +48,10 @@ export default function RecipeScreen() {
   };
 
   return (
-    
+
     <ScrollView contentContainerStyle={[styles.container, { backgroundColor: theme.background }]} >
       <Stack.Screen options={{ headerShown: false }} />
-      <View style={{ flexDirection: 'row', padding: 16}}>
+      <View style={{ flexDirection: 'row', padding: 16 }}>
         <Pressable onPress={() => router.back()}>
           <Text style={{ fontSize: 30, color: theme.text }}>←</Text>
         </Pressable>
@@ -62,7 +59,7 @@ export default function RecipeScreen() {
 
 
 
-      
+
       <Text style={[styles.title, { color: theme.text }]}>{recipe.name}</Text>
 
       <Text style={[styles.subtitle, { color: theme.text }]}>Servings</Text>
@@ -103,7 +100,7 @@ export default function RecipeScreen() {
       {/* Ingredient list */}
       <Text style={[styles.subtitle, { color: theme.text }]}>Ingredients</Text>
 
-      {recipe.ingredients.map((ingredient, index) => {
+      {recipe.ingredients.map((ingredient: Ingredient, index: number) => {
         if (!ingredient.name) return null;
 
         const amount = Number(ingredient.amount) || 0;

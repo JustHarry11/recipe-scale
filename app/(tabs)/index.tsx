@@ -21,7 +21,17 @@ export default function RecipesScreen() {
         extraData={recipes}
         renderItem={({ item }) => (
           <View style={[styles.card, { backgroundColor: theme.tint + "22" }]}>
-            <Pressable onPress={() => router.push(`/recipe/${item.id}`)}>
+            <Pressable
+              onPress={() =>
+                router.push({
+                  pathname: "/recipe/[id]",
+                  params: {
+                    id: item.id,
+                    recipe: JSON.stringify(item),
+                  },
+                })
+              }
+            >
               <Text style={[styles.recipeTitle, { color: theme.text }]}>{item.name}</Text>
               <Text style={{ color: theme.text }}>{item.servings} servings</Text>
               <Text style={styles.ingredientsPreview}>
