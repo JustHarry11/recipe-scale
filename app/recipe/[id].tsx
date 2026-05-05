@@ -49,8 +49,11 @@ export default function RecipeScreen() {
 
   return (
     <>
-      <SafeAreaView style={{ flex: 1 , backgroundColor: theme.background}}>
+      <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
         <Stack.Screen options={{ headerShown: false }} />
+        <Text style={[styles.title, { color: theme.text }]}>
+          {recipe.name}
+        </Text>
 
         <View style={{ flex: 1 }}>
 
@@ -68,9 +71,7 @@ export default function RecipeScreen() {
           >
             <View style={styles.contentWrapper}>
 
-              <Text style={[styles.title, { color: theme.text }]}>
-                {recipe.name}
-              </Text>
+
 
               <Text style={[styles.subtitle, { color: theme.text }]}>
                 Servings
