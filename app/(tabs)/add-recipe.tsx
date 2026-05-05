@@ -54,12 +54,18 @@ export default function AddRecipeScreen() {
     setRecipeName("");
     setServings("");
     setIngredients([{ name: "", amount: "", unit: "" }]);
-    router.push("/");
+    router.push({
+      pathname: "/recipe/[id]",
+      params: {
+        id: newRecipe.id,
+        recipe: JSON.stringify(newRecipe),
+      },
+    });
   }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
-      <ScrollView contentContainerStyle={[styles.container,{ flexGrow: 1 }]}>
+      <ScrollView contentContainerStyle={[styles.container, { flexGrow: 1 }]}>
         <Text style={[styles.title, { color: theme.text }]}>Add Recipe</Text>
 
         <TextInput

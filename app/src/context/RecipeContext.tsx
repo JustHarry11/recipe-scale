@@ -8,6 +8,7 @@ type RecipeContextType = {
   recipes: Recipe[];
   addRecipe: (recipe: Recipe) => void;
   deleteRecipe: (id: string) => void;
+  loaded: boolean;
 };
 
 const RecipeContext = createContext<RecipeContextType | undefined>(undefined);
@@ -21,7 +22,18 @@ export function RecipeProvider({ children }: { children: React.ReactNode }) {
     (async () => {
       try {
         const stored = await AsyncStorage.getItem("recipes");
-        if (stored) setRecipes(JSON.parse(stored));
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          setRecipes((prev) => {
+            const combined = [...parsed, ...prev];
+            const unique = combined.filter(
+              (recipe, index, self) =>
+                index === self.findIndex((r) => r.id === recipe.id)
+            );
+
+            return unique;
+          });
+        }
       } catch (e) {
         console.log("Error loading recipes:", e);
       } finally {
@@ -46,7 +58,7 @@ export function RecipeProvider({ children }: { children: React.ReactNode }) {
     setRecipes((prev) => prev.filter((r) => r.id !== id));
   };
 
-  return <RecipeContext.Provider value={{ recipes, addRecipe, deleteRecipe }}>{children}</RecipeContext.Provider>;
+  return <RecipeContext.Provider value={{ recipes, addRecipe, deleteRecipe, loaded }}>{children}</RecipeContext.Provider>;
 }
 
 export function useRecipes() {

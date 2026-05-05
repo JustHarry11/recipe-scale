@@ -8,38 +8,49 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function RecipeScreen() {
   const { id, recipe: recipeParam } = useLocalSearchParams();
-  const { recipes } = useRecipes();
+  const { recipes, loaded } = useRecipes();
 
   const theme = Colors.light;
-
   const parsedRecipe = recipeParam
     ? JSON.parse(recipeParam as string)
     : null;
 
-  const recipe =
-    parsedRecipe ||
-    recipes.find((r) => String(r.id) === String(id));
+  const recipeFromContext = recipes.find(
+    (r) => String(r.id) === String(id)
+  );
+
+  const recipe = recipeFromContext || parsedRecipe;
 
   const router = useRouter();
 
   // ✅ Scaling state with safe default
-  const [servings, setServings] = useState(1);
+  const [servings, setServings] = useState<number | null>(null);
 
 
 
   useEffect(() => {
-    if (recipe) {
+    if (recipe && servings === null) {
       setServings(recipe.servings);
     }
-  }, [recipe]);
+  }, [recipe, servings]);
 
-  if (!recipe) {
+  if (!recipe && !loaded) {
     return (
-      <View style={[styles.container, { backgroundColor: theme.background }]}>
-        <Text style={[styles.title, { color: theme.text }]}>Recipe not found</Text>
+      <View style={styles.container}>
+        <Text>Loading recipe...</Text>
       </View>
     );
   }
+
+  if (!recipe && loaded) {
+    return (
+      <View style={styles.container}>
+        <Text>Recipe not found</Text>
+      </View>
+    );
+  }
+
+  if (!recipe) return null;
 
   // Scale ingredient amounts
   const scaleAmount = (amount: number) => {
@@ -59,7 +70,7 @@ export default function RecipeScreen() {
 
           {/* HEADER */}
           <View style={styles.header}>
-            <Pressable onPress={() => router.push('/(tabs)')}>
+            <Pressable onPress={() => router.back()}>
               <Text style={{ fontSize: 30, color: theme.text }}>←</Text>
             </Pressable>
           </View>
