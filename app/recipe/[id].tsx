@@ -52,6 +52,8 @@ export default function RecipeScreen() {
 
   if (!recipe) return null;
 
+  if (servings === null) return null;
+
   // Scale ingredient amounts
   const scaleAmount = (amount: number) => {
     if (!recipe) return 0;
