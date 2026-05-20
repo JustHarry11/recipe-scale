@@ -1,50 +1,43 @@
-# Welcome to your Expo app 👋
+# Recipe Scale App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A mobile recipe scaling app built with React Native and Expo Router that allows users to create recipes and dynamically adjust ingredient quantities based on serving size.
 
-## Get started
+## Screenshots
 
-1. Install dependencies
+![Home Screen](./screenshots/home.png)
 
-   ```bash
-   npm install
-   ```
+## Features
 
-2. Start the app
+- Add custom recipes
+- Dynamic serving size scaling
+- Persistent local storage with AsyncStorage
+- Mobile-first responsive UI
+- Type-safe navigation with Expo Router
 
-   ```bash
-   npx expo start
-   ```
+## Tech Stack
 
-In the output, you'll find options to open the app in a
+- React Native
+- Expo
+- Expo Router
+- TypeScript
+- AsyncStorage
+- Context API
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Installation
 
 ```bash
-npm run reset-project
+npm install
+npx expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## What I Learned
 
-## Learn more
+- Managing application state with Context API
+- Persisting data with AsyncStorage
+- Structuring routes using Expo Router
+- Handling async loading and navigation edge cases
+- Building responsive mobile UI layouts
 
-To learn more about developing your project with Expo, look at the following resources:
+## Challenges
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+One challenge was ensuring newly created recipes were immediately available after navigation without requiring a refresh. This was solved by improving async state handling and conditional loading logic.
