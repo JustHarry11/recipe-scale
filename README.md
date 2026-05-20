@@ -4,7 +4,11 @@ A mobile recipe scaling app built with React Native and Expo Router that allows 
 
 ## Screenshots
 
-![Home Screen](./screenshots/home.png)
+![Home Screen](./screenshots/image1.PNG)
+![Add Recipe Screen 1](./screenshots/image2.PNG)
+![Add Recipe Screen 2](./screenshots/image3.PNG)
+![My Recipe Screen](./screenshots/image4.PNG)
+![Edit Serving Screen](./screenshots/image5.PNG)
 
 ## Features
 
