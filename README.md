@@ -4,11 +4,13 @@ A mobile recipe scaling app built with React Native and Expo Router that allows 
 
 ## Screenshots
 
-![Home Screen](./screenshots/image1.PNG)
-![Add Recipe Screen 1y](./screenshots/image2.PNG)
-![Add Recipe Screen 2](./screenshots/image3.PNG)
-![My Recipe Screen](./screenshots/image4.PNG)
-![Edit Serving Screen](./screenshots/image5.PNG)
+<p align="center">
+    <img src="./screenshots/image1.PNG" width="250" />
+    <img src="./screenshots/image2.PNG" width="250" />
+    <img src="./screenshots/image3.PNG" width="250" />
+    <img src="./screenshots/image4.PNG" width="250" />
+    <img src="./screenshots/image5.PNG" width="250" />
+</p>
 
 ## Features
 
@@ -34,7 +36,9 @@ https://expo.dev/accounts/justharry/projects/recipe-scale/builds/9a8ae5e7-0913-4
 
 ## Install on Android
 
-![Android Install QR](./screenshots/RecipeAppQR.png)
+<p>
+    <img src="./screenshots/RecipeAppQR.png" width="250" />
+</p>
 
 ## What I Learned
 
