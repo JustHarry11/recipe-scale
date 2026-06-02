@@ -27,12 +27,14 @@ A mobile recipe scaling app built with React Native and Expo Router that allows 
 - AsyncStorage
 - Context API
 
-## Installation
+## Try the App
 
-```bash
-npm install
-npx expo start
-```
+Android Build:
+https://expo.dev/accounts/justharry/projects/recipe-scale/builds/9a8ae5e7-0913-4cb9-8d6d-f77e02bfa564
+
+## Install on Android
+
+![Android Install QR](./screenshots/RecipeAppQR.png)
 
 ## What I Learned
 
